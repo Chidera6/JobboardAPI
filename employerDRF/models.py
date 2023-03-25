@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class EmployerPostjobs(models.Model):
+class PostJobs(models.Model):
     EXPERIENCE = [
         ('intern','Internship'),
         ('entry','Entry Level'),
@@ -15,11 +15,12 @@ class EmployerPostjobs(models.Model):
     date_updated = models.DateField(auto_now=True)
 
 class EmployerProfile(models.Model):
+    name = models.CharField(max_length=200)
     description = models.TextField()
     location = models.CharField(max_length=200)
     company = models.CharField(max_length=200)
     telephone = models.IntegerField()
     date_created = models.DateField(auto_now_add=True)
-    post_jobs  = models.ForeignKey(EmployerPostjobs, on_delete=models.CASCADE)
+    post_jobs  = models.ForeignKey(PostJobs, on_delete=models.CASCADE)
 
 

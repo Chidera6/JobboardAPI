@@ -40,18 +40,48 @@ INSTALLED_APPS = [
     'rest_framework',
     'applicantDRF',
     'employerDRF',
+    'djoser',
+    'rest_framework.authtoken',
+    "dj_rest_auth",
+
+    'rest_framework_simplejwt',
+    "allauth", 
+    "allauth.account", 
+    "allauth.socialaccount", 
+    "dj_rest_auth.registration",
     
 ]
+DJOSER = {
+    "USER_ID_FIELD":"username"
+}
 
+SIMPLE_JWT = {
+    #'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    
+}
+
+REST_USE_JWT = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSSES':{
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+    'rest_framework.authentication.SessionAuthentication'
+    },
+    "DEFAULT_PERMISSION_CLASSES": [
+    "rest_framework.permissions.IsAuthenticated",
+],
+}
 
 ROOT_URLCONF = 'jobboardapi.urls'
 
@@ -69,7 +99,10 @@ TEMPLATES = [
             ],
         },
     },
+    
 ]
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # new
+SITE_ID = 1
 
 WSGI_APPLICATION = 'jobboardapi.wsgi.application'
 
