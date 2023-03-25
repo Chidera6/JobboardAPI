@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "allauth.account", 
     "allauth.socialaccount", 
     "dj_rest_auth.registration",
+    "drf_spectacular"
     
 ]
 DJOSER = {
@@ -74,15 +75,22 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSSES':{
+    
     'rest_framework_simplejwt.authentication.JWTAuthentication',
     'rest_framework.authentication.TokenAuthentication',
     'rest_framework.authentication.SessionAuthentication'
     },
     "DEFAULT_PERMISSION_CLASSES": [
-    "rest_framework.permissions.IsAuthenticated",
+    #"rest_framework.permissions.IsAuthenticated",
 ],
+"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", 
 }
+SPECTACULAR_SETTINGS = {
+"TITLE": "Job Board API",
+"DESCRIPTION": "A Job Board API",
+"VERSION": "1.0.0",
 
+}
 ROOT_URLCONF = 'jobboardapi.urls'
 
 TEMPLATES = [
