@@ -44,7 +44,8 @@ DJOSER = {
     "USER_ID_FIELD":"username",
     
     'SERIALIZERS': {
-         'user_create': 'employerDRF.serializer.UserRegistrationSerializer'
+         'user_create': 'employerDRF.serializer.UserRegistrationSerializer',
+         'user':'employerDRF.serializer.UserSerializer',
     }
     
 }
