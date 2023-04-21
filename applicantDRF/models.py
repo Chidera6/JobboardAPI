@@ -2,8 +2,10 @@ from django.db import models
 from employerDRF.models import CustomUser
 
 class Skill(models.Model):
-    name = models.CharField(max_length=255)
+    skill = models.CharField(max_length=255)
 
+    def __str__(self) -> str:
+        return self.skills
 
 class ApplicantProfile(models.Model):
     location = models.CharField(max_length=200)
@@ -21,9 +23,8 @@ class ApplicantProfile(models.Model):
     
 
     def __str__(self) -> str:
-        return self.skills
+        return self.user
     
-
 
     
     """

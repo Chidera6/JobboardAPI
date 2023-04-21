@@ -1,21 +1,17 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics,status
 from .serializer import PostJobSerializer,EmployerProfileSerializer
 from .models import PostJobs,EmployerProfile
 
-
 class EmployerProfileView(generics.ListCreateAPIView):
-    queryset = EmployerProfile.objects.all()
-    serializer_class = EmployerProfileSerializer
+    queryset = EmployerProfile.objects.all().select_related('user')
+    serializer_class = EmployerProfileSerializer  
+    search_fields = ['location']
 
-    def get_queryset(self):
-        return EmployerProfile.objects.all().select_related('user')
-
-    def perform_create(self, serializer):
-        user = self.request.user
-        serializer.save(user=user)
+    def perform_create(self,serializer):
+        serializer.save(user = self.request.user)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
     
 class EmployerProfileSingleView(generics.RetrieveUpdateDestroyAPIView):
     queryset = EmployerProfile.objects.all().select_related('user')
@@ -28,7 +24,9 @@ class PostJobView(generics.ListCreateAPIView):
     search_fields = ['experience_level','job_location','date_created']
 
     def perform_create(self, serializer):
-        serializer.save(employer=self.request.user.employer_profile)
+        employer = self.request.user
+        serializer.save(employer)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 class PostJobSingleView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PostJobs.objects.all().select_related('employer_profile')
