@@ -19,7 +19,6 @@ schema_view = get_schema_view(
    public=True,
    permission_classes=(permissions.AllowAny,),
 )
-
 """
 {
     "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MTk5NjkyMywianRpIjoiZjZiNjc5MjhjNTRjNGM0ZjkyMjU4MjFkYzQ5NTllZjUiLCJ1c2VyX2lkIjoxfQ.P5OkgzaijKfivUH1zghjyLvrJ-kNmrf7M4E1pTGSYQk",
