@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     
 ]
 
-#REST_USE_JWT = True
+
 DJOSER = {
     "USER_ID_FIELD":"username",
     
@@ -175,10 +175,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'employerDRF.CustomUser'
-#AUTH_USER_MODEL = 'users.User'
 #ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
 
-#e-commerce/settings.py
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
