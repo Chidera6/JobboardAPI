@@ -1,25 +1,38 @@
 from rest_framework import serializers
-from .models import PostJobs,EmployerProfile,CustomUser
+from .models import Jobs,EmployerProfile,CustomUser
 from djoser.serializers import UserCreateSerializer,UserSerializer
 
 class UserRegistrationSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = CustomUser
-        fields = ['id',"username", 'first_name','last_name', 'email', 'user_type',"password",]
+        fields = ['id',"username", 'first_name','last_name', 'email', 'user_type',"password"]
+        
 class UserDetailSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         model = CustomUser
         fields = ['id',"username", 'first_name','last_name', 'email', 'user_type',"password",]
 
 class EmployerProfileSerializer(serializers.ModelSerializer):
-    user = UserDetailSerializer(many=True,read_only=True)
     class Meta:
         model = EmployerProfile
-        fields = ["id","description","location","company","telephone","date_created","user"]
+        fields = '__all__'
 
-class PostJobSerializer(serializers.ModelSerializer):
-    employer_profile = EmployerProfileSerializer(many=True,read_only=True)
+class JobSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PostJobs
-        fields = ["id","description","job_location","experience_level","date_created","date_updated",'employer_profile']
+        model = Jobs
+        fields = '__all__'
+
+class EmployerProfileDetailSerializer(serializers.ModelSerializer):
+    user = UserDetailSerializer(read_only=True)
+    class Meta:
+        model = EmployerProfile
+        fields = '__all__'
+
+class JobDetailSerializer(serializers.ModelSerializer):
+    employer_profile = EmployerProfileDetailSerializer(read_only=True)
+    class Meta:
+        model = Jobs
+        fields = '__all__'
+
+
 

@@ -1,33 +1,49 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import generics,status
-from .serializer import PostJobSerializer,EmployerProfileSerializer
-from .models import PostJobs,EmployerProfile
+from .serializer import *
+from .models import Jobs,EmployerProfile
+from rest_framework.permissions import IsAuthenticated
 
-class EmployerProfileView(generics.ListCreateAPIView):
-    queryset = EmployerProfile.objects.all().select_related('user')
+class EmployerProfileCreateView(generics.CreateAPIView):
+    queryset = EmployerProfile.objects.all()
     serializer_class = EmployerProfileSerializer  
-    search_fields = ['location']
-
+    permission_classes = [IsAuthenticated]
+    
     def perform_create(self,serializer):
         serializer.save(user = self.request.user)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     
-class EmployerProfileSingleView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = EmployerProfile.objects.all().select_related('user')
+class EmployerProfilesListView(generics.ListAPIView):
+    queryset = EmployerProfile.objects.all()
     serializer_class = EmployerProfileSerializer
-
-class PostJobView(generics.ListCreateAPIView):
-    queryset = PostJobs.objects.all()
-    serializer_class = PostJobSerializer
     ordering_fields = ['date_created']
-    search_fields = ['experience_level','job_location','date_created']
+    search_fields = ['company_name','industry']
+    permission_classes = [IsAuthenticated]
 
+    
+class EmployerProfileSingleView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = EmployerProfile.objects.all()
+    serializer_class = EmployerProfileDetailSerializer
+
+class JobCreateView(generics.CreateAPIView):
+    queryset = Jobs.objects.all()
+    serializer_class = JobSerializer
+    
     def perform_create(self, serializer):
         employer = self.request.user
         serializer.save(employer)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
+    
+class JobListView(generics.ListAPIView):
+    queryset = Jobs.objects.all()
+    serializer_class = JobSerializer
+    ordering_fields = ['date_created']
+    search_fields = ['job_location']
+    permission_classes = [IsAuthenticated]
 
-class PostJobSingleView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PostJobs.objects.all().select_related('employer_profile')
-    serializer_class = PostJobSerializer
+
+class JobSingleView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Jobs.objects.all()
+    serializer_class = JobDetailSerializer
+
