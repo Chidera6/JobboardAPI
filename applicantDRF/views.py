@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 
+
 class ApplicantProfileView(generics.ListCreateAPIView):
     queryset = ApplicantProfile.objects.all()
     serializer_class = ApplicantProfileSerializer

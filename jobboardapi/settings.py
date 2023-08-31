@@ -42,6 +42,9 @@ INSTALLED_APPS = [
 
 DJOSER = {
     "USER_ID_FIELD":"username",
+   
+    'SEND_CONFIRMATION_EMAIL': True,
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
     
     'SERIALIZERS': {
          'user_create': 'employerDRF.serializer.UserRegistrationSerializer',

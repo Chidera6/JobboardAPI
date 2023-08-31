@@ -1,6 +1,7 @@
 from django.db import models
 from employerDRF.models import CustomUser,Jobs
-
+from django.urls import reverse
+from django.utils.text import slugify
 
 class ApplicantProfile(models.Model):
     location = models.CharField(max_length=200)
@@ -15,7 +16,7 @@ class ApplicantProfile(models.Model):
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     skills = models.CharField(max_length=255)
     
-
+    
     def __str__(self) -> str:
         return self.user.username
     

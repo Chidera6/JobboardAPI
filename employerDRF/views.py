@@ -5,13 +5,16 @@ from .serializer import *
 from .models import Jobs,EmployerProfile
 from rest_framework.permissions import IsAuthenticated
 
+
+
 class EmployerProfileCreateView(generics.CreateAPIView):
     queryset = EmployerProfile.objects.all()
     serializer_class = EmployerProfileSerializer  
     permission_classes = [IsAuthenticated]
     
     def perform_create(self,serializer):
-        serializer.save(user = self.request.user)
+        user = self.request.user
+        serializer.save(user)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     
 class EmployerProfilesListView(generics.ListAPIView):
@@ -25,6 +28,7 @@ class EmployerProfilesListView(generics.ListAPIView):
 class EmployerProfileSingleView(generics.RetrieveUpdateDestroyAPIView):
     queryset = EmployerProfile.objects.all()
     serializer_class = EmployerProfileDetailSerializer
+    lookup_field = "user__username"
 
 class JobCreateView(generics.CreateAPIView):
     queryset = Jobs.objects.all()
@@ -46,4 +50,5 @@ class JobListView(generics.ListAPIView):
 class JobSingleView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Jobs.objects.all()
     serializer_class = JobDetailSerializer
+    lookup_field = "user__username"
 
